@@ -23,7 +23,7 @@ module Restrictable
             if should_fail
               raise "#{current_user.role} doesn't have access to this route or action"
             else
-              controller.not_allowed_action
+              controller.on_forbidden_action
             end
           end
         end
@@ -45,13 +45,13 @@ module Restrictable
             if should_fail
               raise "#{current_user.role} doesn't have access to this route or action"            
             else
-              controller.not_allowed_action
+              controller.on_forbidden_action
             end
           end
         end
       end
 
-      def not_allowed_action
+      def on_forbidden_action
         head :forbidden
       end
     end
