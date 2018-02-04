@@ -1,7 +1,8 @@
 require "restrictable/version"
+require "restrictable/railtie.rb" if defined? Rails
 
 module Restrictable
-  class ActionController::Base
+  module ControllerMethods
     # Controller helper for denying access from user roles
     # Example of use:
     #   prevent :seller, to: :destroy
