@@ -17,14 +17,13 @@ module Restrictable
         curated_options = options.except(:to, :fail)    
         role = user_role.to_s
 
-        before_action curated_options do
+        before_action curated_options do |controller|
           not_permitted = User.roles.keys.exclude?(role) || current_user.role == role
           if not_permitted
             if should_fail
               raise "#{current_user.role} doesn't have access to this route or action"
             else
-              head :forbidden            
-              # redirect_back fallback_location: root_path, flash: { error: I18n.t('activerecord.actions.forbidden_route') }
+              controller.not_allowed_action
             end
           end
         end
@@ -40,17 +39,20 @@ module Restrictable
         curated_options = options.except(:to, :fail)
         role = user_role.to_s
 
-        before_action curated_options do
+        before_action curated_options do |controller|
           not_permitted = current_user.role != role
           if not_permitted
             if should_fail
               raise "#{current_user.role} doesn't have access to this route or action"            
             else
-              head :forbidden
-              # redirect_back fallback_location: root_path, flash: { error: I18n.t('activerecord.actions.forbidden_route') }
+              controller.not_allowed_action
             end
           end
         end
+      end
+
+      def not_allowed_action
+        head :forbidden
       end
     end
 
