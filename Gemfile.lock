@@ -67,7 +67,6 @@ DEPENDENCIES
   bundler (~> 1.16)
   minitest (~> 5.0)
   rake (~> 10.0)
-  restrictable!
 
 BUNDLED WITH
    1.16.0
