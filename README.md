@@ -1,5 +1,7 @@
 # Restrictable
 
+[![Gem Version](https://badge.fury.io/rb/restrictable.svg)](https://badge.fury.io/rb/restrictable)
+
 Manage authorization restrictions on Ruby on Rails with [Devise](https://github.com/plataformatec/devise).
 Ideal for controlling actions of 2 or 3 types of users.
 
@@ -53,7 +55,7 @@ end
 And now you can take advantage of the simple controller methods:
 
 ```ruby
-class BuyOrdersController < ApplicationController
+class PostsController < ApplicationController
   only_allow :admin, to: :destroy
   prevent :guest, to: [:create, :update]
 
@@ -70,7 +72,55 @@ end
 
 ## Advanced Usage
 
-TODO: Add the complete usage method overrides and configurations.
+Additionally you can match your implementation with `Restrictable` simply overriding controller methods. You can do this on the `ApplicationController` level or in your Controller.
+
+#### Example of use:
+
+```ruby
+class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+  before_action :authenticate_user!
+
+  # `on_forbidden_action` is called when a user role doesn't have 
+  # permission to access the controller method.
+  def on_forbidden_action
+    head :forbidden
+  end
+
+  # `should_prevent?(role)` is used to check when a role should be
+  # prevented.
+  # Called by the `prevent` helper and should return a boolean value.
+  def should_prevent?(role)
+    current_user.role == role
+  end
+
+  # `should_only_allow?(role)` is used to check when a role should be
+  # allowed.
+  # Called by the `only_allow` helper and should return a boolean value.
+  def should_only_allow?(role)
+    current_user.role != role
+  end
+end
+```
+
+For example, if we want to implement `Restrictable` on an application that already have implemented users roles with the model `Seller` with devise and the attribute `responsability`. Our controller will be something like this:
+
+```ruby
+class SellersController < ApplicationController
+  only_allow :national_seller, to: :delete
+  prevent :local_seller, to: :new, :update
+
+  def should_prevent?(role)
+    @seller.responsability == role
+  end
+
+  def should_only_allow?(role)
+    @seller.responsability != role
+  end
+
+  # ...
+end
+```
 
 ## Development
 
@@ -80,7 +130,10 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Roadmap
 
-TODO: Add a roadmap.
+- [x] Controller helpers
+- [x] Controller override methods
+- [ ] View helpers
+- [ ] Review flexibility on implementation
 
 ## Contributing
 
