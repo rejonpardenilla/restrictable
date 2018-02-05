@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Simple authorization gem for Ruby on Rails.}
   spec.description   = %q{Manage authorization restrictions on Ruby on Rails. Ideal for controlling actions of 2 or 3 types of users.}
-  spec.homepage      = ""
+  spec.homepage      = "http://github.com/rejonpardenilla/restrictable"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
