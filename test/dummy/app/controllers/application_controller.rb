@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user
-  def authenticate_user
+  def authenticate_user!
     current_user
     if @current_user
       return true
