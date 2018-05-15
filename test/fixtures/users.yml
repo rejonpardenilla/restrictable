@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+admin:
+  name: Admin
+  email: admin@example.com
+  role: 0
+
+normal:
+  name: Normal User
+  email: normal@example.com
+  role: 1
+
+guest:
+  name: Guest User
+  email: guest@example.com
+  role: 2
