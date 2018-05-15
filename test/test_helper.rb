@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "restrictable"
-
-require "minitest/autorun"
+# Configure Rails Environment
+ENV["RAILS_ENV"] = "test"
+require "support/rails_dummy_helper"
+require "support/sessions_helper"
